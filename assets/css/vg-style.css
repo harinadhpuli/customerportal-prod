@@ -1,0 +1,170 @@
+.btn-top-mar{margin-top: 23px;}
+.ellipsisTxt
+{
+	white-space: nowrap;
+	width: 200px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align:center;
+}
+.camera-block ul li .camera-icon
+{
+	margin:0 auto;
+}
+#page-overlay1 {
+	background: none repeat scroll 0 0 #fffdfd;
+	position: fixed;
+	display: block;
+	opacity: 0.6;
+	z-index: 1000001; 
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	}
+	#ajax-loader{
+		display: block;
+		border-radius: 60px;   
+		position: fixed;
+		top: 40%;
+		left: 45%;
+	  z-index: 1000005;
+	   opacity: 1 !important;
+	  
+	}
+	#ajax-loader img{ height:120px;}
+
+	.cardBox-heading span.UnAssigned-text {
+		color: #BC494E !important;
+	}
+	.cardBox-heading ul li span.Closed-text {
+		color: #49bc7c !important;
+	}
+	.cardBox-heading ul li span.Assigned-text {
+		color: #f47738 !important;
+	}
+	#ticketsclose-content{    position: relative;}
+	#ticketsclose-content .ticketFillter {
+		position: absolute;
+		top: -54px;
+		right: 1px;
+		z-index: 99;
+	}
+	.ticketFillter #cleartktfilter {
+    background: #f47738;
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 100px;
+    color: #fff;
+    font-size: 15px;
+    border: none;
+}
+.ticketcreation-block .cardBox p {
+    min-height: 66px;
+    overflow-y: auto;
+    height: 66px;
+    padding-right: 3px;
+    font-size: 13px;
+    color: #444;
+}
+.custsupport-block .buttonOrg{
+	display: block;
+}
+.duck-animation{background-size: contain;
+    background-repeat: no-repeat;
+	background-position: center bottom;
+	padding: 150px 0;
+}
+#content h1 {
+	font-size: 58px;
+	color: #3DA1D6;
+}
+#content #clearfilter {
+    background: #f47738;
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 100px;
+    color: #fff;
+    font-size: 15px;
+    border: none;
+}
+#content p {
+	font-size:18px;
+	color:#1f3a48;
+}
+div#main-content {
+    padding-top: 40px;
+}
+.modal .redcircle {
+    color: #fe6e6e !important;
+}
+
+
+/* .camera-view-block .video-img img{height:220px;} */
+.error { color: #fe6e6e !important;}
+.switchModal { margin-top:-20px; }
+.modalBlock .alertinfo h4{font-size: 16px;}
+#remain.text-muted {color: #01141d !important;}
+.date-picker-block .form-group .form-control {line-height: 18px;}
+.date-picker-block .form-group .form-control{  border: 1px solid #ccc ;  border-radius: 4px;}
+.date-picker-block .form-control:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+}
+.date-picker-block .glyphicon {border-left: 1px solid #CCC !important;}
+#createpsa-info .modal-dialog {
+    padding-top: 14%;
+}
+.tipsBlock .carousel-control .fa {
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+    display: inline-block;
+    left: 50%;
+}
+.tipsBlock .carousel-control {
+    width: 5%;
+    font-size: 45px;
+    text-shadow: none;
+    color: #3da1d6;
+	opacity: 0.3;
+	background: none;
+}
+.infoButton{background-color:#F47738; color:#fff; width:20%; padding:10px; border:none; border-bottom-left-radius:4px;  border-bottom-right-radius:4px; margin-bottom: 10px;}
+.infoModal .modal-content { text-align: center; }
+.calendarOpen{cursor:pointer;}
+
+.videoControl a.play.active img {
+    width: 31px;
+    vertical-align: top;
+    margin-top: -2px;
+    padding-top: 0px;
+    margin-left: 4px;
+}
+.archVideoImg{    min-height: 358px;}
+
+.archiveBlock-right .filters-action{
+	margin-left:0px;
+}
+
+.alertPsa{position: absolute;  padding: 12px 15px;   width: 100%; top: -31px;}
+.alertPsa .alert-dismissable .close, .alert-dismissible .close{right: 0px;}
+
+.archiveBlock-right .select-camera{
+	font-weight: 400 !important;
+}
+.accessDenied h3{text-align:center; font-size:27px; color:#0c5b80;  font-weight:600; margin-top: 114px; }
+.accessDenied ul{list-style:none; margin:0px; text-align:center; display:block; margin-top:25px;}
+.accessDenied ul li{display:inline-block; margin-left:3px; margin-right:3px;}
+
+#createpsa-info .infoButton{
+
+    width: auto;
+}
+.liveview_col {
+     font-weight: bold;
+    font-size: 14px;
+    padding: 20px;
+}

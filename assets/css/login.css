@@ -1,0 +1,59 @@
+  @font-face {
+        font-family: 'ProximaNova-Bold';
+        src: url('../fonts/ProximaNova-Bold.woff2') format('woff2'), url('../fonts/ProximaNova-Bold.woff') format('woff');
+        font-weight: bold;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'ProximaNova-Black';
+        src: url('../fonts/ProximaNova-Black.woff2') format('woff2'), url('../fonts/ProximaNova-Black.woff') format('woff');
+        font-weight: 900;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'ProximaNova-Regular';
+        src: url('../fonts/ProximaNova-Regular.ttf') format('ttf'), src: url('../fonts/ProximaNova-Regular.woff2') format('woff2'), url('../fonts/ProximaNova-Regular.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'ProximaNova-Semibold';
+        src: url('../fonts/ProximaNova-Semibold.woff2') format('woff2'), url('../fonts/ProximaNova-Semibold.woff') format('woff');
+        font-weight: 600;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'ProximaNova-Light';
+        src: url('../fonts/ProximaNova-Light.woff2') format('woff2'), url('../fonts/ProximaNova-Light.woff') format('woff');
+        font-weight: 300;
+        font-style: normal;
+    }
+  
+  
+html,  body {	height: 100%;  font-family: 'proximanova-regular', Helvetica, sans-serif;}
+a, input, label, filed, button, .login-footer{font-family: 'proximanova-regular', Helvetica, sans-serif;} 
+.bg-overlay { background-image: url(../images/login-bg.png); background-repeat: no-repeat; background-position: top center; position:relative;}
+
+/* .bg-overlay { background: linear-gradient(rgba(28,54,81,.9), rgba(28,54,81,.9)), url("../../assets/images/cover-overview.jpg");  background-repeat: no-repeat; background-size: cover; background-position: center center; color: #fff;  height: 450px; padding-top: 50px;} */
+
+
+.logo img{ height:97px; margin-bottom:40px;}
+.login-form{width: 400px; padding: 15px;  left: 50%;  top: 50%; transform: translate(-50%, -50%); position:absolute; margin: auto;}
+.field { display: flex; 	flex-flow: column-reverse;	margin-bottom: 28px;}
+label, input { transition: all 0.2s;	touch-action: manipulation;  }  
+.login-form input { font-size:15px;   font-weight: normal; border: 0;	background-color:#58addc;  color:#fff;     border-radius: 9px;    height:50px; padding-left:20px; padding-right:20px; letter-spacing: 0.5px; } 
+.login-form ::-webkit-input-placeholder {color:#fff;}.login-form ::-moz-placeholder {color:#fff;}.login-form :-ms-input-placeholder {color:#fff;}.login-form :-moz-placeholder {color:#fff;}
+/* input:focus { outline: 0;	border-bottom: 1px solid #47B2FB; }
+input:placeholder-shown + label {font-weight: 400; cursor: text;	max-width: 66.66%;	white-space: nowrap;	overflow: hidden;	text-overflow: ellipsis;
+transform-origin: left bottom;	transform: translate(0, 2.0rem) scale(1.0);  }  
+::-webkit-input-placeholder {	opacity: 0;	transition: inherit; } 
+input:focus::-webkit-input-placeholder {	opacity: 1;  } 
+input:not(:placeholder-shown) + label, input:focus + label {	transform: translate(0, 0) scale(1);	cursor: pointer;  } */
+.login-form .form-group{ position:  relative;}
+.login-form .form-group .icon{position: absolute;top: 17px;right: 0;}
+.login-action-col{ margin-top:0px;}
+.login-action-col .btn.btn-default{font-weight: 400; border-radius:10px; background:#0b5b81; color: #FFF; border-color: #0b5b81;
+ padding-left: 40px; padding-right: 40px; font-size:20px; text-transform: uppercase; height:45px; letter-spacing: 1px;}
+.forgotpw{ float: right; color: #004A6F; margin-top: 10px;}
+.forgotpw:hover{ color: #F47738;}
+.login-footer{ font-size: 14px;}@media (max-width:567px) {.login-form{width: 100%; margin: auto;}.logo img {height: auto;margin-bottom: 40px;  width: 89%;}}

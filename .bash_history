@@ -1,0 +1,3 @@
+ cd /home/
+ ls
+ exit
