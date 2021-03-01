@@ -11,3 +11,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |	https://codeigniter.com/user_guide/general/hooks.html
 |
 */
+
+$hook['pre_system'][] = array(
+    'class'    => 'Maintenance_hook',
+    'function' => 'offline_check',
+    'filename' => 'Maintenance_hook.php',
+    'filepath' => 'hooks'
+);

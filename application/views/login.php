@@ -55,6 +55,11 @@
 							<img src="<?php echo base_url() ?>assets/images/logo-login.png">
 						</div>
 					</div>-->
+			<!--<div class="row">
+				<div class="col-md-12" style="color:#f00">
+					<marquee behavior="scroll" scrollamount="3" direction="left">San Antonio, Texas is experiencing unprecedented weather conditions, fortunately, Pro-Vigil is still operational.  We’ve deployed extra crews, but our responses may be slower than normal. If you need immediate assistance, please call us at 866-616-1318.</marquee>
+				</div>
+			</div>-->
 			<div class="row login-form">
 						<div class="text-center logo">
 							<img src="<?php echo base_url() ?>assets/images/logo-login.png">

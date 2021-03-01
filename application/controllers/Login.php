@@ -55,6 +55,9 @@ class Login extends CI_Controller {
 				$userdata = $this->Api_model->doLogin($email,$password);
 				$loggedUserId = session_id();
 				
+				/* echo "<pre>";
+				print_r($userdata);
+				die; */
                
                 if($userdata){
 
@@ -65,12 +68,32 @@ class Login extends CI_Controller {
 							if($userdata['source']=="IVigil")
 							{
 								$loggedInUserData = $userdata;
+								$loggedInUsername = $loggedInUserData['userName'];
+								$apiEndPoint = 'https://workspace.pro-vigil.info:8443/ivigil-shield/UserLprSitesServlet';
+								$params = array("action"=>"PotentialList","userName"=>$loggedInUsername);
+								$lprList = $this->Api_model->getSiteLPRSites($apiEndPoint,$params);
+								if(!empty($lprList))
+								{
+									if(isset($lprList['error']) && $lprList['error']!="")
+									{
+										$isAccountHasLPR = 0;
+									}
+									else
+									{
+										$isAccountHasLPR = 1;
+									}
+								}
+								else
+								{
+									$isAccountHasLPR = 0;
+								}
+								
 							}
 							elseif($userdata['source']=="PVM")
 							{
 								$loggedInUserData = json_decode($userdata['data']['provigilUserData'],1);
-								
 								$loggedInUserData['source'] = $userdata['source'];
+								$isAccountHasLPR = 0;
 							}
 						
 							foreach($loggedInUserData as $row)
@@ -81,6 +104,7 @@ class Login extends CI_Controller {
 									'userType' => $loggedInUserData['userType'],
 									"potentialList" => $loggedInUserData['potentialList'],
 									"source" => $loggedInUserData['source'],
+									"isAccountHasLPR"=>$isAccountHasLPR,
 									'is_login' => TRUE
 								);
 							}

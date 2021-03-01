@@ -70,13 +70,13 @@
 				</div>
 				<div class="table-block">
 
-					<div class="container monitoring-hours">
+					<div class="container">
 
 						<div class="row">
-
-							<div class="table-responsive monitoring-hours">
+							<div class="col-md-12">
+								<div class="monitoring-hours">
+								</div>
 							</div>
-
 						</div>
 
 					</div>

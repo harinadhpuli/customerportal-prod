@@ -41,10 +41,32 @@ class Archive extends CI_Controller
 		if (!empty($this->session->userdata('USER_SELECTED_SITE'))) {
 			$data['selectedSite'] = $this->session->userdata('USER_SELECTED_SITE');
 		}
-		// echo "<pre>";
-		// print_r($data['selectedSite']);
-		// die;
-		$this->home_template->load('home_template', 'archive', $data);
+		$source=$this->session->userdata('source');
+		$userSelectedSite = $this->session->userdata('USER_SELECTED_SITE');
+		//$source =  $this->session->userdata('source');
+		if (!empty($userSelectedSite)) {
+			$potentialId = $userSelectedSite['potentialId'];
+			$unitId = $userSelectedSite['unitId'];
+		}
+		$apiEndPoint = $this->api_endpoints->getAPIEndPointByUserSource('LIVE_VIEWS_API');
+		if ($source == 'IVigil') {
+			$params = array("event" => "potential", "potentialId" => $potentialId,"from"=>APISOURCE);
+		} else {
+			$params = array("event" => "potential", "potentialid" => $potentialId, "unitId" => $unitId, "isFetchImage" => true);
+		}
+		$cameraData = $this->Api_model->getLiveViews($apiEndPoint, $params);
+		
+		$camerasList = $cameraData[0];
+		
+		if($camerasList['analyticId']==7)
+		{
+			$data['cameraData'] = $cameraData;
+			$this->home_template->load('home_template','footage-retrival',$data);    
+		}
+		else
+		{
+			$this->home_template->load('home_template', 'archive', $data);
+		}
 
 
 	}

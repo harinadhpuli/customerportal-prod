@@ -22,7 +22,8 @@ class Api_model extends CI_Model{
 		. "&password=" . $password
 		. "&deviceId=" . 'asd'
 		;
-
+		//$url = sprintf("%s?%s", $loginurl, http_build_query($params));
+		//echo $url;die;
 		$curl = curl_init($loginurl);
 		curl_setopt($curl, CURLOPT_HEADER, false);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -30,8 +31,10 @@ class Api_model extends CI_Model{
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 		curl_setopt($curl, CURLOPT_POST, true);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+		//$url = sprintf("%s?%s", $loginurl, http_build_query($params));
+		//echo $url;die;
 		$json_response = curl_exec($curl);
-	
+		
 		$status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		// echo $status;die;
 		// if ( $status != 200 ) {
@@ -108,8 +111,11 @@ class Api_model extends CI_Model{
 				$url = sprintf("%s?%s", $url, http_build_query($requestData));
 				//echo $url;
 				$curl = curl_init($url);
+				
 				curl_setopt($curl, CURLOPT_HEADER, false);
 				curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+				curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 				curl_setopt( $curl, CURLOPT_CUSTOMREQUEST, 'GET' );
 			}
 	
@@ -153,6 +159,8 @@ class Api_model extends CI_Model{
 		}
 		public function getLiveViews($url,$params)
 		{
+			//$url = sprintf("%s?%s", $url, http_build_query($params));
+			//echo $url;die;
 			$response = $this->executeCurlRequest($url,"GET",$params);
 			return $response;
 		}
@@ -234,9 +242,103 @@ class Api_model extends CI_Model{
 			$response = $this->executeCurlRequest($url,"GET",$params);
 			return $response;
 		}
+		
 		public function getRTMPLiveData($url,$params)
 		{
 			$response = $this->executeCurlRequest($url,"GET",$params);
+			return $response;
+		}
+		public function getPTZLiveData($url,$params)
+		{
+			$response = $this->executeCurlRequest($url,"GET",$params);
+			return $response;
+		}
+		public function getRTMPLiveStreamData($url,$cameraId,$ownerEmail,$authToken)
+		{
+			
+			$requestData = json_encode(array("local_camera_id"=>$cameraId));
+			
+			$url = sprintf("%s?%s", $url, http_build_query(array("user"=>$ownerEmail)));
+			$curl = curl_init();
+			curl_setopt_array($curl, array(
+			CURLOPT_URL => $url,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => "",
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 30,
+			CURLOPT_CUSTOMREQUEST => "PUT",
+			CURLOPT_SSL_VERIFYPEER => 0,
+			CURLOPT_SSL_VERIFYHOST => 0,
+		
+			CURLOPT_FOLLOWLOCATION => 1,
+			CURLOPT_POST=>true,
+			CURLOPT_POSTFIELDS=>$requestData,
+			CURLOPT_HTTPHEADER => array(
+				
+				"Content-Type: application/json",
+				"Authorization:Bearer $authToken"
+			),
+			));
+			
+			//$response = curl_exec($curl);
+			$data = curl_exec($curl);
+			$resdata = $data ;
+			$err = curl_error($curl);
+			//echo $err;
+			curl_close($curl);
+			$response=json_decode($resdata ,1);
+			
+			return $response;
+		}
+		public function deleteRTMPStream($url,$params,$authToken)
+		{
+			$requestData = "";
+			
+			$url = sprintf("%s?%s", $url, http_build_query($params));
+			$curl = curl_init();
+			curl_setopt_array($curl, array(
+			CURLOPT_URL => $url,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => "",
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 30,
+			CURLOPT_CUSTOMREQUEST => "DELETE",
+			CURLOPT_SSL_VERIFYPEER => 0,
+			CURLOPT_SSL_VERIFYHOST => 0,
+		
+			CURLOPT_FOLLOWLOCATION => 1,
+			CURLOPT_POST=>true,
+			CURLOPT_POSTFIELDS=>$requestData,
+			CURLOPT_HTTPHEADER => array(
+				
+				"Content-Type: application/json",
+				"Authorization:token $authToken"
+			),
+			));
+			
+			//$response = curl_exec($curl);
+			$data = curl_exec($curl);
+			$resdata = $data ;
+			$err = curl_error($curl);
+			//echo $err;
+			curl_close($curl);
+			$response=json_decode($resdata ,1);
+			
+			return $response;
+		}
+		public function getSiteLPRSites($url,$params)
+		{
+			$response = $this->executeCurlRequest($url,"GET",$params);
+			return $response;
+		}
+		public function getSiteLPRDetails($url,$params)
+		{
+			$response = $this->executeCurlRequest($url,"GET",$params);
+			return $response;
+		}
+		public function getSiteEventClips($url,$requestMethod,$params)
+		{
+			$response = $this->executeCurlRequest($url,$requestMethod,$params);
 			return $response;
 		}
 }

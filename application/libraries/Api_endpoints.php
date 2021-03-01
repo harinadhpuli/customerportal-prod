@@ -38,7 +38,13 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 					$ARM_DISARM_STATUS_API = "https://console-vigilx.pro-vigil.com:8443/ivigil-console/reverseEscallations";
 				}
 				//echo $LIVE_VIEWS_API.'<br>'.$STATS_API;die;
-				$RTMP_API = $siteURL."getlivestreamingurl";
+				//$RTMP_API = $siteURL."getlivestreamingurl";
+				$PTZ_API  = $siteURL."CameraService";
+				$RTMP_API = "https://video.pro-vigil.info/api/cameras/sessions";
+				
+				$SITE_LPR_LIST_API = 'https://workspace.pro-vigil.info:8443/ivigil-shield/UserLprSitesServlet';
+				$LPR_DETAILS_API = 'https://workspace.pro-vigil.info:8443/ivigil-lpr/LprJsonDataServlet';
+				$LPR_DOWNLOAD_PDF_API = 'https://workspace.pro-vigil.info:8443/ivigil-lpr/ExportPDFServlet';
 			}
 			elseif($source=='PVM')
 			{
@@ -57,18 +63,25 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 					$MONITORING_HOURS_API = "https://monitoring.pro-vigil.com:8443/vigilx-mobileapi/getmonitoringhours";
 					$STATS_API = "https://monitoring.pro-vigil.com:8443/vigilx-mobileapi/getsitestatistics";
 					$LIVE_VIEWS_API = "https://monitoring.pro-vigil.com:8443/vigilx-mobileapi/camiocameralist";
-					$EVENT_LOG_API = "https://monitoring.pro-vigil.com:8443/vigilx-mobileapi/recentEscalationsByPageAPI.do";
+					//$EVENT_LOG_API = "https://monitoring.pro-vigil.com:8443/vigilx-mobileapi/recentEscalationsByPageAPI.do";
+					$EVENT_LOG_API = "https://monitoring.pro-vigil.com:8443/vigilx-mobileapi/recentEscalationsByPageAPICP.do";
 					$ARM_DISARM_ACTION_API = "https://monitoring.pro-vigil.com:8443/vigilx-mobileapi/armdisarm";
 					$ARM_DISARM_STATUS_API = "https://monitoring.pro-vigil.com:8443/vigilx-mobileapi/ArmDisarmStausHistory";
 					$EVENT_LOG_DETAILS = "https://monitoring.pro-vigil.com:8443/vigilx-mobileapi/recentReportsByPageAPI.do";
 				}
-				$RTMP_API = "https://monitoring.pro-vigil.com:8443/vgsservices/getlivestreamingurl";
+				//$RTMP_API = "https://monitoring.pro-vigil.com:8443/vgsservices/getlivestreamingurl";
+				$RTMP_API = "https://video.pro-vigil.info/api/cameras/sessions";
 				$ONLY_STATUS_API = "";
 				
 				$EXPORT_VIDEO_API = "";
 				$CAMERA_SERVICE = "";
 				$ARCHIVE_DATA_API = "";
 				$ARCHIVE_CONFIG_API = "";
+				$PTZ_API  = "";
+				
+				$SITE_LPR_LIST_API = "";
+				$LPR_DETAILS_API = "";
+				$LPR_DOWNLOAD_PDF_API = "";
 			}
 			if($_SERVER['HTTP_HOST']=="localhost")
 			{
@@ -84,7 +97,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 			}
 			
 			
-			
+			$EVENT_CLIP_API = "http://apps.pro-vigil.info:8089/api/eventdata/geteventclips";
 			$apiEndPoints = array(
 				"CAMERA_HEALTH_API" => $CAMERA_HEALTH_API,
 				"MONITORING_HOURS_API" => $MONITORING_HOURS_API,
@@ -103,7 +116,12 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 				"ARCHIVE_DATA_API" => $ARCHIVE_DATA_API,
 				
 				"EXPORT_VIDEO_API" => $EXPORT_VIDEO_API,
-				"RTMP_API" => $RTMP_API
+				"RTMP_API" => $RTMP_API,
+				"PTZ_API"=>$PTZ_API,
+				"SITE_LPR_LIST_API"=>$SITE_LPR_LIST_API,
+				"LPR_DETAILS_API"=>$LPR_DETAILS_API,
+				"LPR_DOWNLOAD_PDF_API"=>$LPR_DOWNLOAD_PDF_API,
+				"EVENT_CLIP_API" => $EVENT_CLIP_API,
 			);
 			return $apiEndPoints[$apiName];
 		}

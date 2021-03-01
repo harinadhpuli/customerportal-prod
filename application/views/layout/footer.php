@@ -2,8 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 		
-	<footer class="footer text-center"> Copyright © <?php echo date('Y');?>, Pro-Vigil, Inc. All rights reserved.</footer>
-
+	<footer class="footer text-center"> Copyright © <?php echo date('Y');?>, Pro-Vigil, Inc. All rights reserved.
+		<span class="text-right appversion">Version <?php echo VERSION;?></span>
+	</footer>
+		
 		</div>
 	</div>
 	<!-- END wrapper -->
@@ -29,6 +31,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				maxHeight: 200
 			});
 			
+			$('#usersites').multiselect({
+				enableCaseInsensitiveFiltering: true,
+				maxHeight: 200
+			});
+			
+			$('#cameraUniqId').multiselect({
+				enableCaseInsensitiveFiltering: true,
+				maxHeight: 200
+			});
 		});
 		
 	</script>
@@ -400,6 +411,19 @@ $(function () {
 $('body').tooltip({
     selector: '[data-toggle=tooltip]'
 });
+
+
+function getDocHeight(){
+	var D = document;
+	
+	return Math.max(
+	D.body.scrollHeight, D.documentElement.scrollHeight,
+	D.body.offsetHeight, D.documentElement.offsetHeight,
+	D.body.clientHeight, D.documentElement.clientHeight
+	);
+}
+
+
 </script>
 <!--Arm/Disarm Modal-->
 <div class="modal modalBlock notesModal" id="armdisarm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

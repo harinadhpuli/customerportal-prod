@@ -103,7 +103,10 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
+/* if($_SERVER['REMOTE_ADDR']=='202.133.55.139' || $_SERVER['REMOTE_ADDR']=='43.241.65.129' || $_SERVER['REMOTE_ADDR']=='183.82.102.253' || $_SERVER['REMOTE_ADDR']=='103.200.41.125')
 $config['enable_hooks'] = FALSE;
+else  */
+	$config['enable_hooks'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -524,3 +527,19 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+/*
+|--------------------------------------------------------------------------
+| Maintenance Mode
+|--------------------------------------------------------------------------
+|
+| For whatever reason sometimes a site needs to be taken offline.
+| Set $config['maintenance_mode'] to TRUE if the site has to be offline
+|
+| $config['maintenance_mode'] = TRUE; // site is offline
+| $config['maintenance_mode'] = FALSE; // site is online
+*/
+/* if($_SERVER['REMOTE_ADDR']=='202.133.55.139' || $_SERVER['REMOTE_ADDR']=='43.241.65.129' || $_SERVER['REMOTE_ADDR']=='183.82.102.253' || $_SERVER['REMOTE_ADDR']=='103.200.41.125')
+$config['maintenance_mode'] = FALSE;
+else */
+$config['maintenance_mode'] = FALSE;

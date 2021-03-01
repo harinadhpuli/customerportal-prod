@@ -39,6 +39,8 @@ class Liveviews extends CI_Controller {
 	}
 	
 	public function getLiveViews($view='multi'){
+		
+		$postData = json_decode($this->input->post('data'),1);
 		$class_lg ='col-lg-3';
 		$class_md ='col-md-4';
 		$class_sm ='col-sm-6';
@@ -65,24 +67,39 @@ class Liveviews extends CI_Controller {
 		//echo $apiEndPoint;die;
 		if($source=='IVigil')
 		{
-			$data = array("event"=>"potential","potentialId"=>$potentialId,"from"=>APISOURCE);
+			$pageNo = $postData['pageNo'];
+			$data = array("event"=>"potential","potentialId"=>$potentialId,"from"=>APISOURCE,"pagination"=>'true','pageno'=>$pageNo);
+			//$data = array("event"=>"potential","potentialId"=>$potentialId,"from"=>APISOURCE);
+			
 		}else{
 			$data = array("event"=>"potential","potentialid"=>$potentialId, "unitId"=>$unitId, "isFetchImage"=>true,"from"=>APISOURCE);
 		}
-		$liveViewsData = $this->Api_model->getLiveViews($apiEndPoint,$data);
-		// echo $potentialId;
-		// echo "<pre>";
-		// print_r($liveViewsData);die; 
-		// echo "</pre>";
+		$liveCameraViewsData = $this->Api_model->getLiveViews($apiEndPoint,$data);
+		
+		
 		$str='';
-		if(!empty($liveViewsData)){
+		$noOfPages = 0;
+		$current_pageNo = 0;
+		if(!empty($liveCameraViewsData)){
 			$i=0;
 			$key=0;
-			
+			if($source=='IVigil')
+			{
+				$noOfPages = $liveCameraViewsData['noOfPages'];
+				$current_pageNo = $liveCameraViewsData['current pageNo'];
+				$liveViewsData = $liveCameraViewsData['cameraList'];
+			}
+			else
+			{
+				$noOfPages = 0;
+				$current_pageNo = 0;
+				$liveViewsData = $liveCameraViewsData;
+			}
+			/* echo "<pre>";
+			print_r($liveViewsData);
+			die; */
 			foreach($liveViewsData as $eachVideo){
-				/* echo "<pre>";
-				print_r($eachVideo);
-				echo "</pre>"; */
+				
 				$playIcon = "";
 				$analyticId = (isset($eachVideo['analyticId']))?$eachVideo['analyticId']:1;
 				if($source=='IVigil')
@@ -95,30 +112,87 @@ class Liveviews extends CI_Controller {
 						$hdurl = '';
 						$cameraId = (isset($eachVideo['cameraId']))?$eachVideo['cameraId']:'';
 						$name = (isset($eachVideo['name']))?$eachVideo['name']:'';
-						$sdurl = (isset($userSelectedSite['url']))?$userSelectedSite['url'].'SnapShot?channel='.$cameraId.'&station=recordingStation':'';
+						$sdurl = (isset($userSelectedSite['url']))?$userSelectedSite['url'].'SnapShot?channel='.$cameraId.'&withmd=true&station=recordingStation':'';
+						//$playIcon = '<div class="playIconc"><img src="assets/images/playiconc.png" alt="play Icon" /> <p>Click for Live Views</p></div>';
+						$playIcon = "";
 					}elseif($analyticId == 1){
 						$DefaultView ='HD';
 						$hdurl = (isset($eachVideo['hdurl']))?$eachVideo['hdurl']:'';
 						$sdurl = (isset($eachVideo['sdUrl']))?$eachVideo['sdUrl']:'';
+						$cameraId = (isset($eachVideo['localcameraID']))?$eachVideo['localcameraID']:'';
+						$name = (isset($eachVideo['name']))?$eachVideo['name']:'';
+						if(isset($eachVideo['dayImg']) && $eachVideo['dayImg']!="")
+						{
+							$playIcon = '<div class="playIconc"><img src="assets/images/playiconc.png" alt="play Icon" /> <p>Click for Live Views</p></div>';
+						}
+					}
+					elseif($analyticId == 7 || $analyticId == 8 || $analyticId == 9){
+						$DefaultView ='HD';
+						$hdurl = (isset($eachVideo['hdurl']))?$eachVideo['hdurl']:'';
+						//$sdurl = (isset($eachVideo['sdUrl']))?$eachVideo['sdUrl']:'';
 						$cameraId = (isset($eachVideo['cameraId']))?$eachVideo['cameraId']:'';
 						$name = (isset($eachVideo['name']))?$eachVideo['name']:'';
+						$sdurl = (isset($userSelectedSite['url']))?$userSelectedSite['url'].'SnapShot?channel='.$cameraId.'&withmd=true&station=recordingStation':'';
+						/* if(isset($eachVideo['dayImg']) && $eachVideo['dayImg']!="")
+						{
+							$playIcon = '<div class="playIconc"><img src="assets/images/playiconc.png" alt="play Icon" /> <p>Click for Live Views</p></div>';
+						} */
+						$playIcon = "";
 					}
-
-					$cameraImage = (isset($userSelectedSite['url']))?$userSelectedSite['url']."CameraSnapShot?channel=".$cameraId."&station=recordingStation&view=day":'';
-					$maskingImage = (isset($userSelectedSite['url']))?$userSelectedSite['url']."CameraSnapShot?channel=".$cameraId."&station=recordingStation&view=day&overlay=Mask":'';
-					if($eachVideo['dayImg']!="")
+					if(isset($eachVideo['ptz']) && $eachVideo['ptz']!="")
+					{
+						$isPTZ=$eachVideo['ptz'];
+					}
+					else
+					{
+						$isPTZ="0";
+					}
+					//$cameraImage = (isset($userSelectedSite['url']))?$userSelectedSite['url']."CameraSnapShot?channel=".$cameraId."&station=recordingStation&view=day":'';
+					//$maskingImage = (isset($userSelectedSite['url']))?$userSelectedSite['url']."CameraSnapShot?channel=".$cameraId."&station=recordingStation&view=day&overlay=Mask":'';
+					/* if(isset($eachVideo['dayImg']) && $eachVideo['dayImg']!="")
 					{
 						$playIcon = '<div class="playIconc"><img src="assets/images/playiconc.png" alt="play Icon" /> <p>Click for Live Views</p></div>';
-					}
-					/* $cameraRTMPURL = "";
-					if($analyticId == 1){
-						$apiEndPoint=$this->api_endpoints->getAPIEndPointByUserSource('RTMP_API');
-						$params = array('uniqueCameraID'=>"722072VGSTEST1016CAM36792","potentialID"=>"722072");
-						$rtmpData = $this->Api_model->getRTMPLiveData($apiEndPoint,$params);
-						$cameraRTMPURL =  $rtmpData['liveurl'];
 					} */
+					//$playIcon = "";
+					$lastmodifiedon = "NA";
+					$night_lastmodifiedon = "NA";
+					if($eachVideo['lastmodifiedon']!="" && $eachVideo['lastmodifiedon']!="-")
+					{
+						$lastmodifiedon = convertDBDateFormat($eachVideo['lastmodifiedon']);
+					}
+					if($eachVideo['night_lastmodifiedon']!="" && $eachVideo['night_lastmodifiedon']!="-")
+					{
+						$night_lastmodifiedon = convertDBDateFormat($eachVideo['night_lastmodifiedon']);
+					}
+					$cameradayImg = $daymaskimage = $nightimage = $nightmaskimage = COMINGSOONIMG;
+					if(isset($eachVideo['dayImg']) && $eachVideo['dayImg']!="")
+					{
+						$cameradayImg = $eachVideo['dayImg'];
+					}
+					if(isset($eachVideo['daymaskimage']) && $eachVideo['daymaskimage']!="")
+					{
+						$daymaskimage = $eachVideo['daymaskimage'];
+					}
+					if(isset($eachVideo['nightimage']) && $eachVideo['nightimage']!="")
+					{
+						$nightimage = $eachVideo['nightimage'];
+					}
+					if(isset($eachVideo['nightimage']) && $eachVideo['nightimage']!="")
+					{
+						$nightimage = $eachVideo['nightimage'];
+					}
+					$nightmaskimage = $eachVideo['nightmaskimage'];
 					
-					
+					$ownerEmail = "";
+					$authToken = "";
+					if(isset($eachVideo['owners_email']) && $eachVideo['owners_email']!="")
+					{
+						$ownerEmail = $eachVideo['owners_email'];
+					}
+					if(isset($eachVideo['auth_token']) && $eachVideo['auth_token']!="")
+					{
+						$authToken = $eachVideo['auth_token'];
+					}
 				}else{
 					$name = (isset($eachVideo['Name']))?$eachVideo['Name']:'';
 					$imageUrl = (isset($eachVideo['imgurl']))?$eachVideo['imgurl']:base_url('assets/images/15copy@3x.png');
@@ -128,26 +202,66 @@ class Liveviews extends CI_Controller {
 					$maskingImage = "Masking view is not available for this site";
 					$hdurl = (isset($eachVideo['hdUrl']))?$eachVideo['hdUrl']:'';
 					$sdurl = (isset($eachVideo['sdUrl']))?$eachVideo['sdUrl']:'';
+					
+					$ownerEmail = $eachVideo['owners_email'];
+					$authToken = $eachVideo['auth_token'];
 
 					if($eachVideo['imgurl']!="")
 					{
 						$playIcon = '<div class="playIconc"><img src="assets/images/playiconc.png" alt="play Icon" /> <p>Click for Live Views</p></div>';
 					}
 					
-					$cameraId="";
+					$cameraId= $eachVideo['localcameraID'];
+					$isPTZ=$eachVideo['PTZ'];
 					
+					$lastmodifiedon = "";
+					$night_lastmodifiedon = "";
+					$cameradayImg = "Day view is not available for this site";
+					$daymaskimage = "Day Masking is not available for this site";
+					$nightimage = "Night view is not available for this site";
+					$nightmaskimage = "Night Masking view is not available for this site";
 				}
+				
+				$ptzControls = "";
+				if($isPTZ=='true')
+				{
+					$ptzControls = '<div class="camControls">
+						<div class="singleBt">
+							<button class="camPTZAction" data-action="TILTUP"><img src="assets/images/tilt_up.png"> </button>
+						</div>
+						<div class="multiBt">
+							<button class="camPTZAction" data-action="PANLEFT"><img src="assets/images/pan_left.png"></button>
+							<button class="camPTZAction" data-action="GOTOPRESET"><img src="assets/images/preset.png"> </button> 
+							<button class="camPTZAction" data-action="PANRIGHT"><img src="assets/images/pan_right.png"> </button>
+						</div>
+						<div class="singleBt">
+							<button class="camPTZAction" data-action="TILTDOWN"><img src="assets/images/tilt_down.png"> </button>
+						</div>
+						<div class="singleBt">
+							<button class="camPTZAction" data-action="ZOOMIN"><img src="assets/images/zoom_in.png"> </button>
+						</div>
+						<div class="singleBt">
+							<button class="camPTZAction" data-action="ZOOMOUT"><img src="assets/images/zoom_out.png"> </button>
+						</div>
+						<div class="multiBt bottomControl">
+							<button class="camStreamSpeed" data-speed="1">L</button> 
+							<button class="camStreamSpeed active" data-speed="2">M</button> 
+							<button class="camStreamSpeed" data-speed="3">H
+						</div>
+					</div>';
+				} 
+				//echo $name;die;
 				if($key%4==0){
 					$rowend = $key+3;
 					$str .='<div class="row">';
 				}
 				$str .='<div class="'.$class_lg.' '.$class_md.' '.$class_sm.' '.$class_xs.'">
 				<div class="v-box box">
-					<div class="video-header"><h3><i class="fa fa-circle '.$connected.'" aria-hidden="true"></i> '.$name.'</h3>
+					<div class="video-header"><h3 data-toggle="tooltip" data-placement="top" title="'.$name.'"><i class="fa fa-circle '.$connected.'" aria-hidden="true"></i> '.$name.'</h3>
 						<div class="videohdimg">
-							<span class="video-hd"><a class="play-live" data-toggle="tooltip" data-placement="top" title="Video" href="javascript:void(0)" data-name="'.$name.'" data-hdurl="'.$hdurl.'" data-sdurl="'.$sdurl.'" data-source="'.$source.'" data-connected="'.$connected.'" data-analyticId="'.$analyticId.'">'.$DefaultView.'</a></span>
+							<span class="video-hd"><a class="play-live" data-toggle="tooltip" data-placement="top" title="Video" href="javascript:void(0)" data-name="'.$name.'" data-hdurl="'.$hdurl.'" data-sdurl="'.$sdurl.'" data-source="'.$source.'" data-ptz="'.$isPTZ.'" data-connected="'.$connected.'" data-analyticId="'.$analyticId.'">'.$DefaultView.'</a></span>
 							<span class="maskingImg-Bt" >
-								<a data-toggle="tooltip" data-placement="top" title="Masking" href="javascript:void(0)" class="masking" data-camera="'.$cameraImage.'" data-masking="'.$maskingImage.'" data-source="'.$source.'" data-connected="'.$connected.'">
+								<a data-toggle="tooltip" data-placement="top" title="Masking" href="javascript:void(0)" class="masking" data-cameradayImg="'.$cameradayImg.'" data-daymaskimage="'.$daymaskimage.'" data-nightimage="'.$nightimage.'" data-nightmaskimage="'.$nightmaskimage.'" data-lastmodifiedon="'.$lastmodifiedon.'" date-night_lastmodifiedon="'.$night_lastmodifiedon.'" data-source="'.$source.'" data-connected="'.$connected.'">
 									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 129.176 110.5">
 									<g id="noun_Image_2160593" transform="translate(-13.439 -2.675)">
 										<path id="Path_124" data-name="Path 124" d="M127.06,2.675H5.666A3.892,3.892,0,0,0,1.775,6.566V109.284a3.892,3.892,0,0,0,3.891,3.891H127.06a3.892,3.892,0,0,0,3.891-3.891V6.566A3.892,3.892,0,0,0,127.06,2.675Zm-3.891,102.718H9.557V10.457H123.169Z" transform="translate(11.664 0)" fill="#67ba2c"/>
@@ -159,13 +273,14 @@ class Liveviews extends CI_Controller {
 							</span>
 						</div>
 					</div>
-					<div class="video-img" data-analyticId="'.$analyticId.'" data-cameraId="'.$cameraId.'" data-hdurl="'.$hdurl.'" data-name="'.$name.'" data-sdurl="'.$sdurl.'" data-source="'.$source.'" data-connected="'.$connected.'">
+					<div class="video-img" data-ptz="'.$isPTZ.'" data-analyticId="'.$analyticId.'" data-cameraId="'.$cameraId.'" data-ownerEmail="'.$ownerEmail.'" data-authToken="'.$authToken.'" data-hdurl="'.$hdurl.'" data-name="'.$name.'" data-sdurl="'.$sdurl.'" data-source="'.$source.'" data-connected="'.$connected.'">
 					<div class="videoImgPosition">
 					'.$playIcon	.'
-					<img src="'.$imageUrl.'">
+					<img src="'.$imageUrl.'" class="camLiveView">
 					</div>
 					</div>
 				</div>
+				'.$ptzControls.'
 			</div>';
 			if($key==$rowend){
 				$str .='</div>';
@@ -176,9 +291,14 @@ class Liveviews extends CI_Controller {
 			$str = '<span class="grayText">No Live Views</span>';
 		}
 		
-			echo $str;
+			$str = str_replace("\n", "", $str);
+			$str = str_replace("\r", "", $str);
+			$str = str_replace("\t",'', $str);
+			//$str = stripslashes($str);
+			$response = array("result"=>$str,"noOfPages"=>$noOfPages,"currentpageNo"=>$current_pageNo);
+			echo json_encode($response,JSON_UNESCAPED_SLASHES);
 		}
-	public function getCamioRTMPLiveURL()
+	public function getCamioRTMPLiveURLOld()
 	{
 		$postData = json_decode($this->input->post('data'),1);
         $response = array();
@@ -221,5 +341,83 @@ class Liveviews extends CI_Controller {
 			}
 		}
 		echo $cameraRTMPURL;
+	}
+	public function getCamioRTMPLiveURL()
+	{
+		$postData = json_decode($this->input->post('data'),1);
+        $response = array();
+		$cameraId = "";
+        if(isset($postData['cameraId']) && $postData['cameraId']!="")
+        {
+           $cameraId = $postData['cameraId'];
+        }
+		$ownerEmail = $postData['ownerEmail'];
+		$authToken = $postData['authToken'];
+		$apiEndPoint=$this->api_endpoints->getAPIEndPointByUserSource('RTMP_API');
+		
+		$rtmpData = $this->Api_model->getRTMPLiveStreamData($apiEndPoint,$cameraId,$ownerEmail,$authToken);
+		
+		$cameraRTMPURL = "";
+		if(!empty($rtmpData))
+		{
+			//$cameraRTMPURL = $rtmpData['streaming_server_url'];
+			$cameraRTMPURL = $rtmpData['hls_url'];
+		}
+		echo $cameraRTMPURL;
+	}
+	public function getCamioPTZLiveURL()
+	{
+		$postData = json_decode($this->input->post('data'),1);
+        $response = array();
+		
+		$cameraId = $postData['cameraId'];
+		$selectedAction = $postData['selectedAction'];
+		$selectedSpeed = $postData['selectedSpeed'];
+		 
+		$apiEndPoint=$this->api_endpoints->getAPIEndPointByUserSource('PTZ_API');
+		$params = array("event"=>"ptz","cameraid"=>$cameraId,"speed"=>$selectedSpeed,"action"=>$selectedAction);
+		
+		$camPTZData = $this->Api_model->getPTZLiveData($apiEndPoint,$params);
+	}
+	public function closeRTMPStream()
+	{
+		$postData = json_decode($this->input->post('data'),1);
+        $response = array();
+		
+		$cameraId = $postData['cameraId'];
+		$ownerEmail = $postData['ownerEmail'];
+		$authToken = $postData['authToken'];
+		$apiEndPoint=$this->api_endpoints->getAPIEndPointByUserSource('RTMP_API');
+		$params = array("local_camera_id"=>$cameraId,"user"=>$ownerEmail);
+		$response = $this->Api_model->deleteRTMPStream($apiEndPoint,$params,$authToken);
+	}
+	public function getHLSStreamURL()
+	{
+		$postData = json_decode($this->input->post('data'),1);
+        $response = array();
+		
+		$hlsurl = $postData['hdurl'];
+		
+		$hlsStream = $this->Api_model->executeCurlRequest($hlsurl,"GET","");
+		
+		if(!empty($hlsStream))
+		{
+			if($hlsStream['success']==1 && $hlsStream['data']['hlsUrl']!='')
+			{
+				$hlsUrl = $hlsStream['data']['hlsUrl'];
+				$expirySeconds = $hlsStream['data']['expirySeconds'];
+				$response = array('success'=>1,'hlsUrl'=>$hlsUrl,'expirySeconds'=>$expirySeconds);
+			}
+			else
+			{
+				$response = array('success'=>0,'msg'=>'Stream not available, Please try again');
+			}
+		}
+		else
+		{
+			$response = array('success'=>0,'msg'=>'Stream not available, Please try again');
+		}
+		
+		echo json_encode($response);
 	}
 }

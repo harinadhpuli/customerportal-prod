@@ -244,7 +244,19 @@
 			   $currentTime = date('Y-m-d H:i:s');
 			   $location='America/Denver';
 			   //$currentTime = $commonObj->displayDateFormatWithTime($time);
-			   break;	
+			   break;
+			   case 'AT': $displayTZ = "AST";
+			   date_default_timezone_set('America/Anguilla');
+			   $currentTime = date('Y-m-d H:i:s');
+			   $location='America/Anguilla';
+			   //$currentTime = $commonObj->displayDateFormatWithTime($time);
+			   break;
+			   case 'HT': $displayTZ = "HST";
+			   date_default_timezone_set('Pacific/Honolulu');
+			   $currentTime = date('Y-m-d H:i:s');
+			   $location='Pacific/Honolulu';
+			   //$currentTime = $commonObj->displayDateFormatWithTime($time);
+			   break;			   
 			   case 'UTC': $displayTZ = "UTC";
 			   date_default_timezone_set('UTC');
 			   $currentTime = date('Y-m-d H:i:s');
@@ -349,5 +361,22 @@ if(!function_exists('convertDBDateFormat'))
 	
 		return $formatDate; 
 	} 
+}
+if(!function_exists('getHoursBetweenTimezones'))
+{
+	function getHoursBetweenTimezones($siteTimezone,$serverTimezone)
+	{
+		$site_tz = new DateTimeZone($siteTimezone);
+		$site = new DateTime('now', $site_tz);
+
+		$server_tz = new DateTimeZone($serverTimezone);
+		$server = new DateTime('now', $server_tz);
+
+		$local_offset = $site->getOffset() / 3600;
+		$user_offset = $server->getOffset() / 3600;
+
+		$diff = $user_offset - $local_offset;
+		return ($diff); 
+	}
 }
 ?>

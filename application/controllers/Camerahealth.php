@@ -35,8 +35,8 @@ class Camerahealth extends CI_Controller {
 		$siteName = $potentialListData['unitId'];
 
 		//$siteName = "F1016";
-		$data = array("siteName"=>$siteName);
-		$params = json_encode($data);
+		$inputArr = array("siteName"=>$siteName);
+		$params = json_encode($inputArr);
 		
 		//$apiEndPoint=$this->api_endpoints->getAPIEndPointByUserSource('CAMERA_HEALTH_API');
 		
@@ -62,19 +62,21 @@ class Camerahealth extends CI_Controller {
 			$str='';
 			foreach($cameraHealthList['msg'] as $device)
 			{
-				$deviceSts = "unhealthy"; 
-				if($device['status']=='1')
+				if($device['type']=='camera')
 				{
-					$deviceSts = "healthy"; 
-				}
+					$deviceSts = "unhealthy"; 
+					if($device['status']=='1')
+					{
+						$deviceSts = "healthy"; 
+					}
 			?>
 				<li class="<?php echo $deviceSts;?>">
-				<div class="camera-icon">
-				<img src="<?php echo base_url()?>assets/images/icons/cc-camera.png">											
-				</div>
-				<h3 class="ellipsisTxt" data-toggle="tooltip" data-placement="top" title="<?php echo $device['name'];?>"><?php echo $device['name'];?></h3>																		
-			</li>
-		<?php	}} else {?>
+					<div class="camera-icon">
+					<img src="<?php echo base_url()?>assets/images/icons/cc-camera.png">											
+					</div>
+					<h3 class="ellipsisTxt" data-toggle="tooltip" data-placement="top" title="<?php echo $device['name'];?>"><?php echo $device['name'];?></h3>																		
+				</li>
+		<?php	}}} else {?>
 			<h5 class="grayText">No Results Found.</h5>
 		<?php }
 	}

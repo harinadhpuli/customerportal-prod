@@ -56,7 +56,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 										<p><?php $history = $this->session->userdata('history');
 											if(!empty($history)){ echo $history['title']; }else{ echo "No History"; } ?></p>
 
-										<h3><?php if(!empty($history)){ echo $history['name']; }else{ echo 'FOUND'; } ?></h3>
+										<h3 data-toggle="tooltip" data-placement="top" title="<?php echo $history['name'];?>"><?php if(!empty($history)){ echo $history['name']; }else{ echo 'FOUND'; } ?></h3>
 										</div>
 									</div>
 
@@ -328,5 +328,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					});
 				}	
 			}
+			
 		});
+		
+		
 	</script>

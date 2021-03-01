@@ -71,7 +71,7 @@ class Monitoringhours extends CI_Controller {
 				$key++;
 			}
 		}
-		$str .='<table class="table custom-table">
+		$str .='<div class="table-responsive"><table class="table custom-table">
 					<thead>
 						<tr>
 							<th>Day</th>
@@ -121,7 +121,7 @@ class Monitoringhours extends CI_Controller {
 						 } 
 						$str .= '</tr>';
 				} 
-			$str .='</tbody></table>';
+			$str .='</tbody></table></div>';
 			$title = "Monitoring & Additional Monitoring Hours (".$timezone.")";
 			echo json_encode(array('title'=>$title,'data'=>$str));
 			//echo $str;

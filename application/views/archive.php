@@ -102,9 +102,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<div class="form-group">
 							<label class="label-control">Duration(minutes):</label>
 							<select class="form-control" name="duration">
-								<option value="10">10</option>
-								<option value="20">20</option>
+								<option value="15">15</option>
 								<option value="30">30</option>
+								<option value="45">45</option>
+								<option value="60">60</option>
 							</select>
 						</div>
 						<div class="form-group">
@@ -143,7 +144,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					};
 					response = ajaxRequestWithPromise(url, data);
 					response.then(function(v) {
-						getArchive();
+						//getArchive();
+						location.reload();
 						$(".sitetitle").html(siteName);
 					}, function(e) {
 						console.log(v);

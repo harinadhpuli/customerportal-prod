@@ -122,7 +122,7 @@ position: absolute; right:6px; top:-10px; display: inline-block; width:18px; hei
 .user-list.dropdown-menu > li > a img {margin-right:9px; filter: grayscale(100%);}
 
 .user-list{width:240px; padding-top:0px; }
-.user-list h4{font-size:14px; font-weight:400; color:#f47738 !important; margin:0px 0px 0px 15px; display: inline-block; padding-top:4px;}
+.user-list h4{font-size:14px; font-weight:400; color:#f47738 !important; margin:0px 0px 0px 15px; display: inline-block; padding-top:4px;word-wrap: break-word; width: 161px;}
 .user-list h4 span{font-size:12px; font-weight:400; color:#ff8269; margin:0px; display:block; padding-top: 4px;}
 .user-list h3{font-size:14px; font-weight:400; color:#ff8269; margin:0px 0px 0px 0px; display: inline-block; padding-top:4px;}
 

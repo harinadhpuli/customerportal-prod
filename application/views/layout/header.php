@@ -1,14 +1,25 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
+	if($title!='')
+	{
+		$title = $title;
+	}
+	else
+	{
+		$title = 'Pro-Vigil Monitoring';
+	}
 ?>
 <!DOCTYPE html>
 <html>
 
 <head>
 	<meta charset="utf-8" />
-	<title>Pro-Vigil Monitoring</title>
+	<title><?php echo $title;?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /> 
+	<meta http-equiv="Pragma" content="no-cache" /> 
+	<meta http-equiv="Expires" content="0" />
 	<link rel='shortcut icon' type='image/png' href='<?php echo base_url() ?>assets/images/favicon.ico'/>
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
 	<!-- App css -->
@@ -35,17 +46,28 @@
     <link href="<?php echo base_url() ?>assets/css/bootstrap-multiselect.css" rel="stylesheet">
 	<link href="<?php echo base_url() ?>assets/css/bootstrap-datetimepicker.css" rel="stylesheet" />
 	<?php 
-		echo $activePage = $this->uri->segment(1);
+		$activePage = $this->uri->segment(1);
 		$supportMenuArr = array("tips","tickets","customer-support");
 		$cameraMenuArr  = array("liveviews","camerahealth");
 		$siteDetailsMenuArr = array("monitoringhours","stats");
 		$psaMenuArr = array("createPSA","psa");
 	?>
+	
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-7WECK8WBEW"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-7WECK8WBEW');
+	</script>
+	
 </head>
 <body>
 	<div id="wrapper">
 		<div class="navbar navbar-fixed-top headerBlock" role="navigation" id="header">
-			<?php if(!empty($this->session->userdata('USER_SELECTED_SITE'))) {?>
+			<?php if(!empty($this->session->userdata('USER_SELECTED_SITE')) && $activePage!="lpr") {?>
 			<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -97,13 +119,19 @@
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Support</a>
 									<ul class="dropdown-menu animation slideDownIn">									
 										<li <?php if($activePage=="tips") {?>class="active"<?php }?>><a href="<?php echo base_url(); ?>tips">Tips</a></li>
-										<li <?php if($activePage=="tickets") {?>class="active"<?php }?>><a href="<?php echo base_url(); ?>tickets">Ticket Creation</a></li>		
+										<!--<li <?php if($activePage=="tickets") {?>class="active"<?php }?>><a href="<?php echo base_url(); ?>tickets">Ticket Creation</a></li>-->
+										<li <?php if($activePage=="tickets") {?>class="active"<?php }?>><a href="https://support.pro-vigil.com/hc/en-us/requests/new" target="_new">Ticket Creation</a></li>
 										<li <?php if($activePage=="customer-support") {?>class="active"<?php }?>><a href="<?php echo base_url(); ?>customer-support">Customer Support</a></li>
 										<!--<li><a href="notifications.html">Notifications</a></li>											-->
 									</ul>
 								</li>
+								<!--<li class="dropdown custinfo-menu <?php if($activePage=="eventclip") {?> active <?php }?>"><a href="<?php echo base_url(); ?>eventclip">EVENT CLIP</a></li>-->
+								
 								<?php if($this->session->userdata('source')=='IVigil') {?>
-								<li class="dropdown custinfo-menu <?php if($activePage=="archive") {?> active <?php }?>"><a href="<?php echo base_url(); ?>archive">Archive</a></li>
+									<li class="dropdown custinfo-menu <?php if($activePage=="archive") {?> active <?php }?>"><a href="<?php echo base_url(); ?>archive">Archive</a></li>
+									<?php if($this->session->userdata('isAccountHasLPR')==1) {?>
+									<li class="dropdown custinfo-menu <?php if($activePage=="lpr") {?> active <?php }?>"><a href="<?php echo base_url(); ?>lpr">LPR</a></li>
+									<?php }?>
 								<?php }?>
 							</ul>
 						</div>
@@ -121,6 +149,18 @@
 				</div>
 			<?php } ?>
 				<div class="navbar-right">	
+					<?php if($this->session->userdata('isAccountHasLPR')==1 && $activePage=="lpr") {?>
+					<nav id="nav-menu-container">	
+						<div class="navbar-leftblock">
+							<div id="navbar" class="navbar-collapse" aria-expanded="false">
+								<ul class="nav navbar-nav nav-menu">
+										<li class="dropdown custinfo-menu"><a href="<?php echo base_url(); ?>dashboard">Dashboard</a></li>									
+										<li class="dropdown custinfo-menu"><a href="<?php echo base_url(); ?>lpr">LPR</a></li>
+								</ul>
+							</div>
+						</div>
+					</nav>
+					<?php }?>
 					<div class="header-right">
 						<ul class="nav navbar-toolbar user-nav navbar-toolbar-right">
 							<li class="nav-item dropdown user-box userbox-border">
@@ -138,5 +178,10 @@
 					</div>
 				</div>
 			</div>
+			<!--<div class="row">
+				<div class="col-md-12" style="color:#f00">
+					<marquee behavior="scroll" scrollamount="3" direction="left">San Antonio, Texas is experiencing unprecedented weather conditions, fortunately, Pro-Vigil is still operational.  We’ve deployed extra crews, but our responses may be slower than normal. If you need immediate assistance, please call us at 866-616-1318.</marquee>
+				</div>
+			</div>-->
 		</div> <!-- end container -->
 	</div>

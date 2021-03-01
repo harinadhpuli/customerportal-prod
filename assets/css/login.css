@@ -41,7 +41,7 @@ a, input, label, filed, button, .login-footer{font-family: 'proximanova-regular'
 .login-form{width: 400px; padding: 15px;  left: 50%;  top: 50%; transform: translate(-50%, -50%); position:absolute; margin: auto;}
 .field { display: flex; 	flex-flow: column-reverse;	margin-bottom: 28px;}
 label, input { transition: all 0.2s;	touch-action: manipulation;  }  
-.login-form input { font-size:15px;   font-weight: normal; border: 0;	background-color:#58addc;  color:#fff;     border-radius: 9px;    height:50px; padding-left:20px; padding-right:20px; letter-spacing: 0.5px; } 
+.login-form input { font-size:15px;   font-weight: normal; border: 0;	background-color:#58addc;  color:#fff;     border-radius: 9px;    height:50px; padding-left:20px; padding-right:20px; letter-spacing: 0.5px;} 
 .login-form ::-webkit-input-placeholder {color:#fff;}.login-form ::-moz-placeholder {color:#fff;}.login-form :-ms-input-placeholder {color:#fff;}.login-form :-moz-placeholder {color:#fff;}
 /* input:focus { outline: 0;	border-bottom: 1px solid #47B2FB; }
 input:placeholder-shown + label {font-weight: 400; cursor: text;	max-width: 66.66%;	white-space: nowrap;	overflow: hidden;	text-overflow: ellipsis;
@@ -56,4 +56,4 @@ input:not(:placeholder-shown) + label, input:focus + label {	transform: translat
  padding-left: 40px; padding-right: 40px; font-size:20px; text-transform: uppercase; height:45px; letter-spacing: 1px;}
 .forgotpw{ float: right; color: #004A6F; margin-top: 10px;}
 .forgotpw:hover{ color: #F47738;}
-.login-footer{ font-size: 14px;}@media (max-width:567px) {.login-form{width: 100%; margin: auto;}.logo img {height: auto;margin-bottom: 40px;  width: 89%;}}
+.login-footer{ font-size: 14px;}@media (max-width:567px) {.login-form{width: 100%; margin: auto;}.logo img {height: auto;margin-bottom: 40px;  width: 89%;}}/*.login-form input{	text-transform: lowercase;}*/

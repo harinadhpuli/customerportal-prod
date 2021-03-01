@@ -106,10 +106,12 @@ if($_SERVER['HTTP_HOST']=='localhost')
 }
 else
 {
-    $CONFIG_SERVER_ROOT = "http://18.210.96.138/";
+    $CONFIG_SERVER_ROOT = "https://portal.pro-vigil.info/";
+    //$CONFIG_SERVER_ROOT = "http://18.210.96.138/";
     //$CONFIG_SERVER_ROOT = "http://localhost/pvcustomerportal/";
 
     $IVIGIL_LOGIN_API = "https://workspace.pro-vigil.info:8443/ivigil-shield/MobileHttpsUrlServlet?";
+    //$IVIGIL_LOGIN_API = "https://workspace.pro-vigil.info:8443/ivigil-shield/2.0/mobile";
     $PVM_LOGIN_API = "https://monitoring.pro-vigil.com:8443/vigilx-mobileapi/api/auth/login";
     $NET_LOGIN_URL = 'https://pro-vigil.my-netalytics.com/api/login';
     
@@ -146,6 +148,7 @@ defined('SF_PASSWORD') OR define('SF_PASSWORD',$SF_PASSWORD);
 $CONVERSIONTIMEZONE = 'America/Chicago';
 defined('CONVERSIONTIMEZONE') OR define('CONVERSIONTIMEZONE',$CONVERSIONTIMEZONE);
 
+
 $SOURCE = 'WEB';
 defined('SOURCE') OR define('SOURCE',$SOURCE);
 
@@ -161,4 +164,9 @@ defined('PSA_MIN_FUTURE_TIME') OR define('PSA_MIN_FUTURE_TIME',$PSA_MIN_FUTURE_T
 
 defined('NET_LOGIN_URL') OR define('NET_LOGIN_URL',$NET_LOGIN_URL);
 
+$COMINGSOONIMG = $CONFIG_SERVER_ROOT.'assets/images/comingsoon.png';
 
+defined('COMINGSOONIMG') OR define('COMINGSOONIMG',$COMINGSOONIMG);
+
+$VERSION = '1.0.0';
+defined('VERSION') OR define('VERSION',$VERSION);

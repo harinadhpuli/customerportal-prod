@@ -59,7 +59,7 @@ class Armdisarm extends CI_Controller {
 					<tbody>";
 			if(isset($history) && !empty($history)){
 				$dateSettings = getDateParametersByTimeZone($timeZone);
-				 foreach($history as $eachHistory){
+				foreach($history as $eachHistory){
 					if(isset($eachHistory['userId']) && !empty($eachHistory['userId'])){ $userId = ucfirst($eachHistory['userId']); }else{ $userId = ''; }
 					if(isset($eachHistory['eventType']) && $eachHistory['eventType'] =='ACTIVATE'){
 						$statusClass="armAction";
@@ -91,7 +91,7 @@ class Armdisarm extends CI_Controller {
 						$date = date('d-m-Y',strtotime($date));
 						$displayDate = $month.'/'.$dayOfMonth.'/'.$year; 
 					}
-					$convertedDate = dateConvertByTimeZone($date.$time, 'CST', $dateSettings['displayCode'], 'd-m-Y H:i:s');
+					$convertedDate = dateConvertByTimeZone($date.$time, 'America/Chicago', $dateSettings['location'], 'd-m-Y H:i:s');
 					$dateTimeFinal = explode(' ',$convertedDate);
 					if($source=="IVigil" && $timeZone !='CT')
 					{
@@ -157,7 +157,7 @@ class Armdisarm extends CI_Controller {
 		$siteName = $selectedSiteData['siteName'];
 		$potentialId = $selectedSiteData['potentialId'];
 		$toDate = date('m/d/Y');
-		$fromDate = date('m/d/Y', strtotime("-2 day"));
+		$fromDate = date('m/d/Y', strtotime("-30 day"));
 		$apiEndPoint=$this->api_endpoints->getAPIEndPointByUserSource('ARM_DISARM_STATUS_API');
 		$source =  $this->session->userdata('source');
 		if($source=='IVigil')
@@ -265,7 +265,15 @@ class Armdisarm extends CI_Controller {
 			$this->session->set_userdata('history',$lastArmDisarmBy);
 			echo json_encode(array('title' => 'Alert', 'message' => $msg, 'siteStatus'=>$status, 'status'=>'Success', 'history' => json_encode($lastArmDisarmBy)));
 		}else{
-			echo json_encode(array('status'=>'Failed','title' => 'Error', 'message' => $armDisarmStatusList['message']));
+			if($action == 'ACTIVATE')
+			{
+				$showMsg = 'Arm request failed. Please try again';
+			}
+			else
+			{
+				$showMsg = 'Disarm request failed. Please try again';
+			}
+			echo json_encode(array('status'=>'Failed','title' => 'Error', 'message' => $showMsg));
 		}
 	}
 	public function checkingPreConditions(){
@@ -292,20 +300,28 @@ class Armdisarm extends CI_Controller {
 	 * checking the upcoming PSA starts here
 	 */
 		$psaList = $this->getSitePSAList();
+		/* echo "<pre>";
+		print_r($psaList);
+		die; */
 		if(!empty($psaList)){
 			$upcomingPSA = $psaList[0];
-			$psaStartDate = dateConvertByTimeZone($upcomingPSA['StartDateTime'], 'UTC', 'CST', 'Y-m-d H:i:s');
+			
+			$psaStartDate = dateConvertByTimeZone($upcomingPSA['StartDateTime'], 'UTC', CONVERSIONTIMEZONE, 'Y-m-d H:i:s');
+			
 			$myDateTime = getDateParametersByTimeZone($selectedSiteData['timezone']);
 			$currentDate = date('Y-m-d H:i:s',strtotime($myDateTime['currentTime']));
+			
+			
 			$from_time = strtotime($psaStartDate);
 			$to_time = strtotime($currentDate);
 			$diff = round(($from_time - $to_time) / 60);
+			//echo $diff;die;
 			if($diff< 60 && $diff>0){
 				$msg = "There is upcoming PSA in $diff mins,Site will be disarmed in $diff mins";
 				echo json_encode(array('title' => 'Alert', 'message' => $msg, 'status'=>'Failed'));
 				exit;
 			}
-			
+			//die;
 		}
 	 /**
 	  * checking the upcoming PSA ends here
@@ -327,11 +343,14 @@ class Armdisarm extends CI_Controller {
         if($psaList['status']=="200" && $psaList['message']=="Success")
         {
 			$events = $psaList['events'];
+			$myDateTime = getDateParametersByTimeZone($userSelectedSite['timezone']);
+			$currentDate = date('Y-m-d H:i:s',strtotime($myDateTime['currentTime']));
 			if(!empty($events))
 			{
 				foreach($events as $event)
 				{
-				   if($event['PSA_Cancelled__c']!='true')
+				   $psaStartDate = dateConvertByTimeZone($event['StartDateTime'], 'UTC', CONVERSIONTIMEZONE, 'Y-m-d H:i:s');
+				   if($event['PSA_Cancelled__c']!='true' && ($currentDate < $psaStartDate))
 				   {
 						array_push($tmpArry, $event);
 				   }

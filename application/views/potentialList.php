@@ -1,4 +1,4 @@
-<div class="col-sm-4 innerRightActions">
+<div class="innerRightActions">
 		<div class="pull-right">
 			<?php
 				if (!empty($potentialList) && sizeof($potentialList) > 1) 

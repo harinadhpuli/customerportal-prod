@@ -29,6 +29,9 @@ class Tickets extends CI_Controller {
 
 	public function index()
 	{
+		//redirect(CONFGI_SERVER_ROOT.'dashboard');
+		redirect(base_url().'accessDenied');
+		
 		$data['title']="Ticket Creation";
 		$data['potentialList'] = $this->session->userdata('potentialList');
 		if(!empty($this->session->userdata('USER_SELECTED_SITE')))

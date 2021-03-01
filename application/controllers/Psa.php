@@ -102,11 +102,12 @@ class Psa extends CI_Controller {
 						// echo $event['StartDateTime'];
 						//$siteTimezone = $userSelectedSite['timezone'];
 						$currentSiteTimeArr = getDateParametersByTimeZone($userSelectedSite['timezone']);
-						$siteTimezone = $currentSiteTimeArr['displayCode'];
+						//$siteTimezone = $currentSiteTimeArr['displayCode'];
+						$siteTimezone = $currentSiteTimeArr['location'];
 						$psaCreatedDate = dateConvertByTimeZone($event['CreatedDate'], 'UTC', $siteTimezone, 'Y-m-d H:i:s');
 						//$psaCreatedDate = dateConvertByTimeZone($event['CreatedDate'], 'UTC', 'CST', 'Y-m-d H:i:s');
-						$psaStartDate = dateConvertByTimeZone($event['StartDateTime'], 'UTC', 'CST', 'Y-m-d H:i:s');
-						$psaEndDate = dateConvertByTimeZone($event['EndDateTime'], 'UTC', 'CST', 'Y-m-d H:i:s');
+						$psaStartDate = dateConvertByTimeZone($event['StartDateTime'], 'UTC', CONVERSIONTIMEZONE, 'Y-m-d H:i:s');
+						$psaEndDate = dateConvertByTimeZone($event['EndDateTime'], 'UTC', CONVERSIONTIMEZONE, 'Y-m-d H:i:s');
 						
 						$str.='<tr>';
 						$str.='<td>'.ucfirst($event['PSA_Requested_by__c']).'</td>';

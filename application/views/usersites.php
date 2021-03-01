@@ -8,6 +8,11 @@
 			<!-- Start content -->
 			<div class="content">
 				<!-- Top Action Col -->
+				<!--<div class="row">
+					<div class="col-md-12" style="color:#f00;margin-top:-40px;">
+						<marquee behavior="scroll" scrollamount="3" direction="left">San Antonio, Texas is experiencing unprecedented weather conditions, fortunately, Pro-Vigil is still operational.  We’ve deployed extra crews, but our responses may be slower than normal. If you need immediate assistance, please call us at 866-616-1318.</marquee>
+					</div>
+				</div>-->
 				<div class="main-action-col">
 					<div class="container">
 						<div class="row">

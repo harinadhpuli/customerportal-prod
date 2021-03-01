@@ -63,6 +63,7 @@
 
 
 .tipsBlock .carousel-control .fa{left: 34%;}
+.main-action-col .sitetitle{padding-left:0px;}
 }
 
 
@@ -103,6 +104,8 @@ a.logo-white img {width: 123px;}
 
 .tipsBlock .carousel-control .fa{left: 28%;}
 
+.main-action-col .sitetitle{padding-left:0px;}
+.cam-pagination .form-control{width: 79px;}
 
 }
 
@@ -256,6 +259,9 @@ h2.resp-tab-active span.resp-arrow { border: none; border-left: 6px solid transp
 .tipsBlock .carousel-control .fa{left:25%;}
 .count-site{display:none;}
 
+.cam-pagination-listsImg{float:left; padding-top:15px; padding-bottom: 7px;}
+
+.cam-pagination .form-control{width: 79px;}
   }
 
 
@@ -356,6 +362,10 @@ h2.resp-tab-active span.resp-arrow { border: none; border-left: 6px solid transp
  
  .innerRightActions .pull-right{float:none !important;}
  .innerRightActions .filters-action{float:none !important;}
+ .cam-pagination-listsImg{ padding-top:0px;}
+
+ .cam-pagination{margin-bottom: 12px;}
+ .innerRightActions{float:none; padding-left:0px; margin-left:0px;}
 }
 
 
